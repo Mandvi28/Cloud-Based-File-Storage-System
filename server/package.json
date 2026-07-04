@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Backend for Cloud-Based-File-Storage-System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": [
+    "express",
+    "azure",
+    "mongodb",
+    "cloud-storage"
+  ],
+  "author": "Mandvi Singh",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0"
+  }
+}
