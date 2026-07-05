@@ -1,0 +1,90 @@
+PROJECT NAME
+Cloud-Based-File-Storage-System
+
+Completed Tasks
+✔ GitHub repository created
+✔ Git initialized
+✔ Branch renamed to main
+✔ React project created using Vite
+✔ Express backend created
+✔ Tailwind CSS configured
+✔ React Router configured
+✔ Professional Home page
+✔ Login page
+✔ Register page
+✔ Dashboard layout
+✔ Navbar and Footer integrated
+✔ README updated
+✔ First Git commit created
+✔ Project pushed to GitHub
+
+Folder Structure
+
+Cloud-Based-File-Storage-System
+│
+├── client
+│   ├── public
+│   ├── src
+│   │   ├── assets
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── services
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   └── package.json
+│
+├── server
+│   ├── config
+│   ├── controllers
+│   ├── middleware
+│   ├── models
+│   ├── routes
+│   ├── services
+│   ├── app.js
+│   ├── server.js
+│   └── package.json
+│
+├── README.md
+└── .gitignore
+
+Files Created
+Backend:
+- app.js
+- server.js
+
+Frontend:
+- Home.jsx
+- Login.jsx
+- Register.jsx
+- Dashboard.jsx
+- NotFound.jsx
+- Navbar.jsx
+- Footer.jsx
+- api.js
+
+Files Modified
+- App.jsx
+- main.jsx
+- index.css
+- vite.config.js
+- README.md
+- .gitignore
+
+Git Commit
+1e201ef
+Initial project setup with React, Express, Tailwind CSS, routing, and UI foundation
+
+Deployment Status
+Frontend deployment pending (Azure Static Web Apps)
+
+Current Progress
+Day 1: 95% complete
+
+Next Step
+Deploy React frontend to Azure Static Web Apps and verify the live URL.
+
+Important Notes
+- Folder structure is finalized.
+- Do not rename files or folders.
+- Backend deployment will happen on Day 3 using Azure App Service.
