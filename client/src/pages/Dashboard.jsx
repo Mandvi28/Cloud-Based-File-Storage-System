@@ -1,7 +1,38 @@
+
+
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    alert("Logged out successfully");
+
+    navigate("/login");
+  };
+
   return (
     <>
       <Navbar />
@@ -10,9 +41,30 @@ function Dashboard() {
 
         <div className="max-w-7xl mx-auto">
 
-          <h1 className="text-4xl font-bold text-blue-700 mb-2">
-            Dashboard
-          </h1>
+          <div className="flex justify-between items-center mb-8">
+
+            <div>
+              <h1 className="text-4xl font-bold text-blue-700">
+                Dashboard
+              </h1>
+
+              <p className="text-gray-600 mt-2">
+                Welcome, <span className="font-semibold">{user?.name}</span>
+              </p>
+
+              <p className="text-gray-500">
+                {user?.email}
+              </p>
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg"
+            >
+              Logout
+            </button>
+
+          </div>
 
           <p className="text-gray-600 mb-8">
             Manage your files securely using Azure Blob Storage.
