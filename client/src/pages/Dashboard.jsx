@@ -1,14 +1,21 @@
 
-
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import API from "../services/api";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,9 +29,99 @@ function Dashboard() {
     if (userData) {
       setUser(JSON.parse(userData));
     }
+
+    fetchFiles();
   }, [navigate]);
 
+  const fetchFiles = async () => {
+    try {
+      setLoading(true);
+
+      const response = await API.get("/files");
+
+      setFiles(response.data.files || []);
+    } catch (error) {
+      console.error("Failed to fetch files:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      alert("Please select a file first.");
+      return;
+    }
+
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await API.post("/files/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert(response.data.message);
+
+      setSelectedFile(null);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
+      fetchFiles();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        error.response?.data?.message ||
+        "File upload failed."
+      );
+
+    } finally {
+
+      setUploading(false);
+
+    }
+  };
+
+  const handleDelete = async (id) => {
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this file?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+
+      const response = await API.delete(`/files/${id}`);
+
+      alert(response.data.message);
+
+      fetchFiles();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        error.response?.data?.message ||
+        "Failed to delete file."
+      );
+
+    }
+
+  };
+
   const handleLogout = () => {
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
@@ -32,6 +129,11 @@ function Dashboard() {
 
     navigate("/login");
   };
+
+  const totalStorage = (
+    files.reduce((sum, file) => sum + file.fileSize, 0) /
+    (1024 * 1024)
+  ).toFixed(2);
 
   return (
     <>
@@ -44,6 +146,7 @@ function Dashboard() {
           <div className="flex justify-between items-center mb-8">
 
             <div>
+
               <h1 className="text-4xl font-bold text-blue-700">
                 Dashboard
               </h1>
@@ -55,6 +158,7 @@ function Dashboard() {
               <p className="text-gray-500">
                 {user?.email}
               </p>
+
             </div>
 
             <button
@@ -72,6 +176,8 @@ function Dashboard() {
 
           <div className="grid lg:grid-cols-3 gap-6">
 
+
+
             {/* Upload Card */}
             <div className="bg-white rounded-xl shadow-md p-6">
 
@@ -80,16 +186,22 @@ function Dashboard() {
               </h2>
 
               <input
+                ref={fileInputRef}
                 type="file"
                 className="w-full border rounded-lg p-2"
-                disabled
+                onChange={(e) => setSelectedFile(e.target.files[0])}
               />
 
               <button
-                disabled
-                className="mt-4 w-full bg-blue-700 text-white py-3 rounded-lg opacity-60 cursor-not-allowed"
+                onClick={handleUpload}
+                disabled={uploading}
+                className={`mt-4 w-full text-white py-3 rounded-lg ${
+                  uploading
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-700 hover:bg-blue-800"
+                }`}
               >
-                Upload (Coming on Day 3)
+                {uploading ? "Uploading..." : "Upload File"}
               </button>
 
             </div>
@@ -101,11 +213,17 @@ function Dashboard() {
                 Statistics
               </h2>
 
-              <p>Total Files: 0</p>
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                <>
+                  <p>Total Files: {files.length}</p>
 
-              <p className="mt-2">
-                Storage Used: 0 MB
-              </p>
+                  <p className="mt-2">
+                    Storage Used: {totalStorage} MB
+                  </p>
+                </>
+              )}
 
             </div>
 
@@ -116,9 +234,58 @@ function Dashboard() {
                 Recent Files
               </h2>
 
-              <p className="text-gray-500">
-                No files uploaded yet.
-              </p>
+              {loading ? (
+                <p className="text-gray-500">
+                  Loading...
+                </p>
+              ) : files.length === 0 ? (
+                <p className="text-gray-500">
+                  No files uploaded yet.
+                </p>
+              ) : (
+                <div className="space-y-3 max-h-72 overflow-y-auto">
+
+
+                  {files.map((file) => (
+
+                    <div
+                      key={file._id}
+                      className="border rounded-lg p-3"
+                    >
+
+                      <p className="font-medium break-words">
+                        {file.originalName}
+                      </p>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        {(file.fileSize / (1024 * 1024)).toFixed(2)} MB
+                      </p>
+
+                      <div className="flex gap-2 mt-3">
+
+                        <a
+                          href={file.fileUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                        >
+                          View
+                        </a>
+
+                        <button
+                          onClick={() => handleDelete(file._id)}
+                          className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                        >
+                          Delete
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                  ))}
+                </div>
+              )}
 
             </div>
 
@@ -129,6 +296,7 @@ function Dashboard() {
       </main>
 
       <Footer />
+
     </>
   );
 }

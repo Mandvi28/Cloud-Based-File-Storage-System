@@ -4,7 +4,11 @@ const router = express.Router();
 const upload = require("../middleware/upload");
 const authMiddleware = require("../middleware/authMiddleware");
 
-const { uploadFile } = require("../controllers/fileController");
+const {
+  uploadFile,
+  getMyFiles,
+  deleteFile,
+} = require("../controllers/fileController");
 
 router.get("/test", (req, res) => {
   res.json({ message: "File routes working!" });
@@ -16,6 +20,20 @@ router.post(
   authMiddleware,
   upload.single("file"),
   uploadFile
+);
+
+// Get Logged-in User Files
+router.get(
+  "/",
+  authMiddleware,
+  getMyFiles
+);
+
+// Delete File
+router.delete(
+  "/:id",
+  authMiddleware,
+  deleteFile
 );
 
 module.exports = router;
