@@ -14,6 +14,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fileInputRef = useRef(null);
 
@@ -134,6 +135,26 @@ function Dashboard() {
     files.reduce((sum, file) => sum + file.fileSize, 0) /
     (1024 * 1024)
   ).toFixed(2);
+  const filteredFiles = files.filter((file) =>
+  file.originalName.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const formatFileSize = (bytes) => {
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(2)} KB`;
+  }
+
+  if (bytes < 1024 * 1024 * 1024) {
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+  }
+
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+};
+
+
 
   return (
     <>
@@ -233,20 +254,34 @@ function Dashboard() {
               <h2 className="text-xl font-semibold mb-4">
                 Recent Files
               </h2>
+              <input
+               type="text"
+               placeholder="Search files..."
+               value={searchTerm}
+               onChange={(e) => setSearchTerm(e.target.value)}
+               className="w-full border rounded-lg p-2 mb-4"
+             />
 
               {loading ? (
                 <p className="text-gray-500">
                   Loading...
                 </p>
-              ) : files.length === 0 ? (
-                <p className="text-gray-500">
-                  No files uploaded yet.
-                </p>
+              
+              ) : filteredFiles.length === 0 ? (
+              <p className="text-gray-500">
+              {searchTerm
+               ? "No matching files found."
+              : "No files uploaded yet."}
+              </p>
               ) : (
+                
+                  
+                
+              
                 <div className="space-y-3 max-h-72 overflow-y-auto">
 
 
-                  {files.map((file) => (
+                  {filteredFiles.map((file) => (
 
                     <div
                       key={file._id}
@@ -257,9 +292,25 @@ function Dashboard() {
                         {file.originalName}
                       </p>
 
-                      <p className="text-sm text-gray-500 mt-1">
-                        {(file.fileSize / (1024 * 1024)).toFixed(2)} MB
+
+                       <p className="text-sm text-gray-500 mt-1">
+                     {formatFileSize(file.fileSize)}
                       </p>
+                     
+                     
+
+                    <p className="text-xs text-gray-400 mt-1">
+                  Uploaded:
+               {" "}
+                   {new Date(file.createdAt).toLocaleString()}
+                  </p>
+
+
+
+
+
+
+                      
 
                       <div className="flex gap-2 mt-3">
 
