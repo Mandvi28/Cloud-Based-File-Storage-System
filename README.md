@@ -1,89 +1,193 @@
 # ☁️ Cloud-Based File Storage System
 
-A full-stack cloud application that allows users to securely upload, manage, search, view, download, and delete files using **Microsoft Azure Blob Storage**. The project demonstrates secure authentication, cloud storage integration, and a responsive user dashboard built with modern web technologies.
+A modern full-stack cloud application that allows users to securely upload, manage, search, download, and delete files using **Microsoft Azure Blob Storage**.
+
+The application provides secure JWT authentication, cloud-based file storage, MongoDB Atlas integration, and a responsive dashboard built with React and Node.js.
+
+---
+
+# 🌐 Live Demo
+
+### 🚀 Frontend
+
+https://cloud-based-file-storage-system-psi.vercel.app
+
+### ⚙️ Backend API
+
+https://cloud-storage-api-h1kb.onrender.com
+
+### 📂 GitHub Repository
+
+https://github.com/Mandvi28/Cloud-Based-File-Storage-System
+
+---
+
+# 📸 Project Preview
+
+## 🏠 Home Page
+
+![Home](screenshots/home.png)
+
+---
+
+## 📝 Register Page
+
+![Register](screenshots/register.png)
+
+---
+
+## 🔐 Login Page
+
+![Login](screenshots/login.png)
+
+---
+
+## 📊 Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## 📤 Upload Files
+
+![Upload](screenshots/upload.png)
+
+---
+
+## ☁️ Azure Blob Storage
+
+![Azure Storage](screenshots/azure-storage.png)
+
+---
+
+## 🍃 MongoDB Atlas
+
+![MongoDB](screenshots/mongodb.png)
+
+---
+
+# ✨ Features
+
+## 🔐 Authentication
+
+- User Registration
+- User Login
+- JWT Authentication
+- Password Encryption using bcrypt
+- Protected Routes
+
+## 📁 File Management
+
+- Upload Files
+- Download Files
+- Delete Files
+- Search Files
+- View Uploaded Files
+- Upload Date & Time
+- File Size Formatting
+- Azure Blob Storage Integration
+
+## 📊 Dashboard
+
+- Total Uploaded Files
+- Storage Usage
+- Recent Files
+- Responsive Dashboard
+- Search Functionality
+
+## ☁️ Cloud Integration
+
+- Azure Blob Storage
+- MongoDB Atlas
+- REST API
+- Secure Backend
+
+---
+
+# 🏗️ Project Architecture
+
+```
+                 React + Vite
+                       │
+                       │
+                  Axios API
+                       │
+                       ▼
+             Node.js + Express
+                       │
+          ┌────────────┴────────────┐
+          ▼                         ▼
+ MongoDB Atlas             Azure Blob Storage
+(User & Metadata)          (Actual Files)
+```
 
 ---
 
 # 🚀 Tech Stack
 
 ## Frontend
+
 - React.js
+- Vite
 - React Router DOM
 - Tailwind CSS
 - Axios
-- Vite
 
 ## Backend
+
 - Node.js
 - Express.js
 
 ## Database
+
 - MongoDB Atlas
 
 ## Cloud Storage
+
 - Microsoft Azure Blob Storage
 
 ## Authentication
-- JSON Web Token (JWT)
+
+- JWT
 - bcryptjs
 
-## Additional Packages
+## Other Packages
+
 - Multer
 - UUID
-- Dotenv
+- dotenv
 - CORS
 
 ---
 
-# ✨ Features
-
-## User Authentication
-- User Registration
-- User Login
-- Secure JWT Authentication
-- Password Encryption using bcrypt
-
-## File Management
-- Upload Files
-- View Files
-- Download Files
-- Delete Files
-- Search Files
-- Upload Date & Time
-- Automatic File Size Formatting (B / KB / MB / GB)
-
-## Dashboard
-- User Dashboard
-- Total Files Counter
-- Storage Usage
-- Recent Files List
-- Responsive UI
-
-## Cloud Integration
-- Azure Blob Storage for file storage
-- MongoDB Atlas for file metadata
-
----
-
-# 📂 Project Structure
+# 📂 Folder Structure
 
 ```text
 Cloud-Based-File-Storage-System
 │
-├── client
-│   ├── src
-│   ├── public
+├── client/
+│   ├── src/
+│   ├── public/
 │   ├── package.json
 │   └── vite.config.js
 │
-├── server
-│   ├── config
-│   ├── controllers
-│   ├── middleware
-│   ├── models
-│   ├── routes
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
 │   ├── server.js
 │   └── package.json
+│
+├── screenshots/
+│   ├── home.png
+│   ├── register.png
+│   ├── login.png
+│   ├── dashboard.png
+│   ├── upload.png
+│   ├── azure-storage.png
+│   └── mongodb.png
 │
 ├── README.md
 └── .gitignore
@@ -101,19 +205,19 @@ git clone https://github.com/Mandvi28/Cloud-Based-File-Storage-System.git
 
 ---
 
-## Install Frontend
+## Install Backend
 
 ```bash
-cd client
+cd server
 npm install
 ```
 
 ---
 
-## Install Backend
+## Install Frontend
 
 ```bash
-cd server
+cd ../client
 npm install
 ```
 
@@ -164,7 +268,7 @@ AZURE_STORAGE_CONTAINER_NAME=uploads
 
 ---
 
-## File APIs
+## Files
 
 | Method | Endpoint |
 |---------|----------|
@@ -174,76 +278,58 @@ AZURE_STORAGE_CONTAINER_NAME=uploads
 
 ---
 
-# 📸 Screenshots
-
-The following screenshots will be added after deployment:
-
-- Login Page
-- Register Page
-- Dashboard
-- Upload File
-- Search Files
-- File Statistics
-- Azure Blob Storage Container
-- MongoDB Atlas Files Collection
-
----
-
-# 🌐 Live Demo
-
-Frontend: To be updated after deployment.
-
-Backend API: To be updated after deployment.
-
----
-
-# 📅 Project Progress
+# 📅 Development Timeline
 
 ## ✅ Day 1
+
 - Project Setup
-- React + Express Setup
-- Tailwind CSS Configuration
+- React + Express
+- Tailwind CSS
 - Routing
-- Authentication Pages UI
+- Authentication UI
 
 ## ✅ Day 2
-- MongoDB Atlas Integration
-- Azure Blob Storage Configuration
+
+- MongoDB Atlas
+- Azure Blob Storage
 - JWT Authentication
-- User Registration & Login APIs
+- Register/Login API
 
 ## ✅ Day 3
+
 - File Upload API
 - Azure Blob Upload
-- MongoDB File Metadata Storage
+- MongoDB Metadata
 - Protected Routes
 
 ## ✅ Day 4
-- Dashboard Integration
+
+- Dashboard
 - Upload Files
-- View Files
 - Delete Files
 - File Statistics
 
 ## ✅ Day 5
-- Upload Date & Time
-- Search Files
-- Smart File Size Formatting
-- Professional README
-- Deployment (Next Step)
+
+- Search
+- File Size Formatting
+- Production Deployment
+- README
+- GitHub
 
 ---
 
-# 🔮 Future Improvements
+# 🔮 Future Enhancements
 
-- File Sharing via Secure Link
-- Rename Files
-- Folder Support
-- Drag & Drop Upload
 - Multiple File Upload
+- Drag & Drop Upload
 - File Preview
+- Folder Support
+- Rename Files
+- File Sharing Links
 - Dark Mode
-- User Profile Management
+- User Profile
+- Email Verification
 
 ---
 
@@ -251,11 +337,14 @@ Backend API: To be updated after deployment.
 
 **Mandvi Singh**
 
-**GitHub:**  
+### GitHub
+
 https://github.com/Mandvi28
 
 ---
 
-## ⭐ Support
+# ⭐ If you like this project
 
-If you found this project helpful, consider giving it a ⭐ on GitHub.
+If you found this project helpful, please consider giving it a ⭐ on GitHub.
+
+It motivates me to build more cloud-based applications.
